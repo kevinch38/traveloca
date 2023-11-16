@@ -1,6 +1,7 @@
 package com.enigma.traveloca.service.impl;
 
-import com.enigma.traveloca.dto.request.CreateCustomerRequest;
+import com.enigma.traveloca.dto.request.create.CreateCustomerRequest;
+import com.enigma.traveloca.dto.request.update.UpdateCustomerRequest;
 import com.enigma.traveloca.dto.response.CustomerResponse;
 import com.enigma.traveloca.entity.Customer;
 import com.enigma.traveloca.entity.UserCredential;
@@ -52,6 +53,29 @@ public class CustomerServiceImpl implements CustomerService {
 
         return mapToResponse(customer);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteById(String id) {
+        Customer customer = findByIdOrThrowException(id);
+
+        repository.delete(customer);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public CustomerResponse update(UpdateCustomerRequest request) {
+        Customer customer = findByIdOrThrowException(request.getId());
+
+        Customer updated = Customer.builder()
+                .id(customer.getId())
+                .name(request.getName())
+                .userCredential(customer.getUserCredential())
+                .build();
+
+        return mapToResponse(repository.saveAndFlush(updated));
+    }
+
     private Customer findByIdOrThrowException(String id) {
         return repository.findById(id).orElseThrow(() -> { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found");});
     }

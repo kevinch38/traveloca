@@ -1,7 +1,8 @@
 package com.enigma.traveloca.service.impl;
 
 
-import com.enigma.traveloca.dto.request.CreateAdminRequest;
+import com.enigma.traveloca.dto.request.create.CreateAdminRequest;
+import com.enigma.traveloca.dto.request.update.UpdateAdminRequest;
 import com.enigma.traveloca.dto.response.AdminResponse;
 import com.enigma.traveloca.entity.Admin;
 import com.enigma.traveloca.entity.UserCredential;
@@ -52,6 +53,28 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = findByIdOrThrowException(id);
 
         return mapToResponse(admin);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteById(String id) {
+        Admin admin = findByIdOrThrowException(id);
+
+        repository.delete(admin);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public AdminResponse update(UpdateAdminRequest request) {
+        Admin admin = findByIdOrThrowException(request.getId());
+
+        Admin updated = Admin.builder()
+                .id(admin.getId())
+                .name(request.getName())
+                .userCredential(admin.getUserCredential())
+                .build();
+
+        return mapToResponse(repository.saveAndFlush(updated));
     }
     private Admin findByIdOrThrowException(String id) {
         return repository.findById(id).orElseThrow(() -> { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Admin not found");});

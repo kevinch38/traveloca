@@ -1,6 +1,6 @@
 package com.enigma.traveloca.controller;
 
-import com.enigma.traveloca.dto.request.CreateCustomerRequest;
+import com.enigma.traveloca.dto.request.update.UpdateCustomerRequest;
 import com.enigma.traveloca.dto.response.CommonResponse;
 import com.enigma.traveloca.dto.response.CustomerResponse;
 import com.enigma.traveloca.service.CustomerService;
@@ -36,6 +36,32 @@ public class CustomerController {
                 .message("Successfully get customer")
                 .statusCode(HttpStatus.OK.value())
                 .data(customerResponse)
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> findById(@RequestBody UpdateCustomerRequest request) {
+        CustomerResponse customerResponse = service.update(request);
+        CommonResponse<CustomerResponse> response = CommonResponse.<CustomerResponse>builder()
+                .message("Successfully update customer")
+                .statusCode(HttpStatus.OK.value())
+                .data(customerResponse)
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable String id) {
+        service.deleteById(id);
+
+        CommonResponse<String> response = CommonResponse.<String>builder()
+                .message("Successfully delete customer")
+                .statusCode(HttpStatus.OK.value())
+                .data("Ok")
                 .build();
         return ResponseEntity
                 .status(HttpStatus.OK)

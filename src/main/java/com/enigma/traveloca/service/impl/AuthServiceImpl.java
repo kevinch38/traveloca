@@ -2,8 +2,9 @@ package com.enigma.traveloca.service.impl;
 
 import com.enigma.traveloca.constant.ERole;
 import com.enigma.traveloca.dto.request.AuthRequest;
-import com.enigma.traveloca.dto.request.CreateAdminRequest;
-import com.enigma.traveloca.dto.request.CreateCustomerRequest;
+import com.enigma.traveloca.dto.request.LoginRequest;
+import com.enigma.traveloca.dto.request.create.CreateAdminRequest;
+import com.enigma.traveloca.dto.request.create.CreateCustomerRequest;
 import com.enigma.traveloca.dto.response.LoginResponse;
 import com.enigma.traveloca.dto.response.RegisterResponse;
 import com.enigma.traveloca.entity.AppUser;
@@ -100,7 +101,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public LoginResponse login(AuthRequest request) {
+    public LoginResponse login(LoginRequest request) {
         validationUtil.validate(request);
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getUsername().toLowerCase(),

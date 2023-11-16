@@ -1,6 +1,7 @@
 package com.enigma.traveloca.controller;
 
 import com.enigma.traveloca.dto.request.AuthRequest;
+import com.enigma.traveloca.dto.request.LoginRequest;
 import com.enigma.traveloca.dto.response.CommonResponse;
 import com.enigma.traveloca.dto.response.LoginResponse;
 import com.enigma.traveloca.dto.response.RegisterResponse;
@@ -46,7 +47,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         LoginResponse login = authService.login(request);
         CommonResponse<LoginResponse> response = CommonResponse.<LoginResponse>builder()
                 .message("Successfully login")

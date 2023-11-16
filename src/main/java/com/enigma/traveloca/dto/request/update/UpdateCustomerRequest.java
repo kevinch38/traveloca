@@ -1,4 +1,4 @@
-package com.enigma.traveloca.dto.request;
+package com.enigma.traveloca.dto.request.update;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreateCustomerRequest {
+public class UpdateCustomerRequest {
+    private String id;
     private String name;
-    private String userCredentialId;
 }

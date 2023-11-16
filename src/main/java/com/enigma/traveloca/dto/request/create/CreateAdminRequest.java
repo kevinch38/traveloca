@@ -1,4 +1,4 @@
-package com.enigma.traveloca.dto.request;
+package com.enigma.traveloca.dto.request.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
