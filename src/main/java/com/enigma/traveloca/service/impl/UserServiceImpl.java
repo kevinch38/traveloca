@@ -1,4 +1,4 @@
-package com.enigma.traveloca.service.UserServiceImpl;
+package com.enigma.traveloca.service.impl;
 
 import com.enigma.traveloca.entity.AppUser;
 import com.enigma.traveloca.entity.UserCredential;

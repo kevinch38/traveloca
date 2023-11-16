@@ -17,7 +17,6 @@ import java.io.IOException;
 @Component
 public class AccessDenied implements AccessDeniedHandler {
     private final ObjectMapper objectMapper;
-
     @Override
     public void handle(HttpServletRequest request,
                        HttpServletResponse response,

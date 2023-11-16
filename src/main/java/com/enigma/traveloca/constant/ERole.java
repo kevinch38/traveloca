@@ -1,5 +1,5 @@
 package com.enigma.traveloca.constant;
 
 public enum ERole {
-    ROLE_CUSTOMER, ROLE_VENDOR
+    ROLE_CUSTOMER, ROLE_ADMIN
 }
