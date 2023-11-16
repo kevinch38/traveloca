@@ -4,9 +4,11 @@ import com.enigma.traveloca.dto.request.update.UpdateCustomerRequest;
 import com.enigma.traveloca.dto.response.CommonResponse;
 import com.enigma.traveloca.dto.response.CustomerResponse;
 import com.enigma.traveloca.service.CustomerService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/customers")
+@SecurityRequirement(name = "Bearer Authentication")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class CustomerController {
     private final CustomerService service;
     @GetMapping
@@ -29,6 +33,7 @@ public class CustomerController {
                 .body(response);
     }
 
+    @PreAuthorize("permitAll")
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable String id) {
         CustomerResponse customerResponse = service.findById(id);
@@ -43,7 +48,7 @@ public class CustomerController {
     }
 
     @PutMapping
-    public ResponseEntity<?> findById(@RequestBody UpdateCustomerRequest request) {
+    public ResponseEntity<?> update(@RequestBody UpdateCustomerRequest request) {
         CustomerResponse customerResponse = service.update(request);
         CommonResponse<CustomerResponse> response = CommonResponse.<CustomerResponse>builder()
                 .message("Successfully update customer")
@@ -54,6 +59,7 @@ public class CustomerController {
                 .status(HttpStatus.OK)
                 .body(response);
     }
+    @PreAuthorize("permitAll")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable String id) {
         service.deleteById(id);

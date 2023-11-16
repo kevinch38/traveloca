@@ -7,11 +7,9 @@ import com.enigma.traveloca.service.FlightService;
 import com.enigma.traveloca.service.TransactionDetailService;
 import com.enigma.traveloca.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Validation;
 import java.util.ArrayList;
 import java.util.List;
 @RequiredArgsConstructor

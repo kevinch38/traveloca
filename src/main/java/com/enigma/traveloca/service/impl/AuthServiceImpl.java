@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(role)
                     .build();
-            userCredentialRepository.saveAndFlush(userCredential);
+            userCredentialRepository.save(userCredential);
 
             CreateCustomerRequest customer = CreateCustomerRequest.builder()
                     .userCredentialId(userCredential.getId())
@@ -64,6 +64,7 @@ public class AuthServiceImpl implements AuthService {
             return RegisterResponse.builder()
                     .username(userCredential.getUsername())
                     .role(userCredential.getRole().getName().toString())
+                    .name(request.getName())
                     .build();
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exist");
@@ -82,7 +83,7 @@ public class AuthServiceImpl implements AuthService {
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(role)
                     .build();
-            userCredentialRepository.saveAndFlush(userCredential);
+            userCredentialRepository.save(userCredential);
 
             CreateAdminRequest admin = CreateAdminRequest.builder()
                     .userCredentialId(userCredential.getId())
@@ -93,6 +94,7 @@ public class AuthServiceImpl implements AuthService {
             return RegisterResponse.builder()
                     .username(userCredential.getUsername())
                     .role(userCredential.getRole().getName().toString())
+                    .name(request.getName())
                     .build();
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exist");

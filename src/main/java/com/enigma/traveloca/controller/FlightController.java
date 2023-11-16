@@ -5,9 +5,11 @@ import com.enigma.traveloca.dto.request.update.UpdateFlightRequest;
 import com.enigma.traveloca.dto.response.CommonResponse;
 import com.enigma.traveloca.dto.response.FlightResponse;
 import com.enigma.traveloca.service.FlightService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/flights")
+@SecurityRequirement(name = "Bearer Authentication")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class FlightController {
     private final FlightService service;
     @PostMapping
@@ -31,6 +35,7 @@ public class FlightController {
                 .body(response);
     }
 
+    @PreAuthorize("permitAll")
     @GetMapping
     public ResponseEntity<?> findAll() {
         List<FlightResponse> flightResponses = service.findAll();
@@ -44,6 +49,7 @@ public class FlightController {
                 .body(response);
     }
 
+    @PreAuthorize("permitAll")
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable String id) {
         FlightResponse flightResponse = service.findById(id);
@@ -58,7 +64,7 @@ public class FlightController {
     }
 
     @PutMapping
-    public ResponseEntity<?> findById(@RequestBody UpdateFlightRequest request) {
+    public ResponseEntity<?> update(@RequestBody UpdateFlightRequest request) {
         FlightResponse flightResponse = service.update(request);
         CommonResponse<FlightResponse> response = CommonResponse.<FlightResponse>builder()
                 .message("Successfully update flight")

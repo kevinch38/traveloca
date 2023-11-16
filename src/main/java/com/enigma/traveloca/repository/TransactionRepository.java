@@ -1,7 +1,11 @@
 package com.enigma.traveloca.repository;
 
 import com.enigma.traveloca.entity.Transaction;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TransactionRepository extends JpaRepository<Transaction, String> {
+import java.util.List;
+
+public interface TransactionRepository {
+    Transaction save(Transaction transaction);
+    List<Transaction> findAll();
+    Transaction findById(String id);
 }

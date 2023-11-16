@@ -14,10 +14,8 @@ import com.enigma.traveloca.service.FlightService;
 import com.enigma.traveloca.service.TransactionDetailService;
 import com.enigma.traveloca.service.TransactionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -50,7 +48,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
         List<TransactionDetail> transactionDetails = transactionDetailService.saveBulk(transactionDetailRequests);
 
-        Transaction transaction = repository.saveAndFlush(Transaction.builder()
+        Transaction transaction = repository.save(Transaction.builder()
                 .customer(customer)
                 .transactionDetailList(transactionDetails)
                 .date(LocalDateTime.now())
@@ -65,13 +63,13 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional(readOnly = true)
     @Override
     public Transaction getById(String transactionId) {
-        return findByIdOrThrowException(transactionId);
+        return repository.findById(transactionId);
     }
 
     @Transactional(readOnly = true)
     @Override
     public TransactionResponse findById(String id) {
-        return mapToTransactionResponse(findByIdOrThrowException(id));
+        return mapToTransactionResponse(repository.findById(id));
     }
 
     @Transactional(readOnly = true)
@@ -79,12 +77,6 @@ public class TransactionServiceImpl implements TransactionService {
     public List<TransactionResponse> findAll() {
         return repository.findAll().stream().map(this::mapToTransactionResponse)
                 .collect(Collectors.toList());
-    }
-
-    private Transaction findByIdOrThrowException(String transactionId) {
-        return repository.findById(transactionId)
-                .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Transaction not found"));
     }
 
     private TransactionResponse mapToTransactionResponse(Transaction transaction) {

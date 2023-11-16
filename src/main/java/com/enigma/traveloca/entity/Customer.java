@@ -18,7 +18,7 @@ public class Customer {
     private String id;
     @Column
     private String name;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_credential_id", unique = true)
     private UserCredential userCredential;
 }

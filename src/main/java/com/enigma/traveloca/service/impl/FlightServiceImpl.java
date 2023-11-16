@@ -8,10 +8,8 @@ import com.enigma.traveloca.repository.FlightRepository;
 import com.enigma.traveloca.service.FlightService;
 import com.enigma.traveloca.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -39,7 +37,7 @@ public class FlightServiceImpl implements FlightService {
                 .flightCode(request.getFlightCode())
                 .build();
 
-        return mapToResponse(repository.saveAndFlush(flight));
+        return mapToResponse(repository.save(flight));
     }
 
     @Transactional(readOnly = true)
@@ -52,13 +50,13 @@ public class FlightServiceImpl implements FlightService {
     @Transactional(readOnly = true)
     @Override
     public FlightResponse findById(String id) {
-        return mapToResponse(findByIdOrThrowException(id));
+        return mapToResponse(repository.findById(id));
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteById(String id) {
-        Flight flight = findByIdOrThrowException(id);
+        Flight flight = repository.findById(id);
 
         repository.delete(flight);
     }
@@ -69,7 +67,7 @@ public class FlightServiceImpl implements FlightService {
         validationUtil.validate(request);
 
         LocalTime localTime = LocalTime.parse(request.getTime());
-        Flight flight = findByIdOrThrowException(request.getId());
+        Flight flight = repository.findById(request.getId());
 
         Flight updated = Flight.builder()
                 .id(flight.getId())
@@ -82,18 +80,12 @@ public class FlightServiceImpl implements FlightService {
                 .flightCode(flight.getFlightCode())
                 .build();
 
-        return mapToResponse(repository.saveAndFlush(updated));
+        return mapToResponse(repository.update(updated));
     }
 
     @Override
     public Flight findByFlightCode(String flightCode) {
-       return repository.findByFlightCode(flightCode)
-                .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight not found"));
-    }
-
-    private Flight findByIdOrThrowException(String id) {
-        return repository.findById(id).orElseThrow(() -> { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight not found");});
+       return repository.findByFlightCode(flightCode);
     }
     private FlightResponse mapToResponse(Flight flight) {
         return FlightResponse.builder()

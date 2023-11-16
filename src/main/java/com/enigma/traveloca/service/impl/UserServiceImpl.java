@@ -17,8 +17,8 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public AppUser loadUserByUserId(String id) {
-        UserCredential userCredential = userCredentialRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("invalid credential"));
+        UserCredential userCredential = userCredentialRepository.findById(id);
+
         return AppUser.builder()
                 .id(userCredential.getId())
                 .username(userCredential.getUsername())
@@ -29,8 +29,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserCredential userCredential = userCredentialRepository.findByUsername(username).
-                orElseThrow(() -> new UsernameNotFoundException("invalid credential"));
+        UserCredential userCredential = userCredentialRepository.findByUsername(username);
         return AppUser.builder()
                 .id(userCredential.getId())
                 .username(userCredential.getUsername())

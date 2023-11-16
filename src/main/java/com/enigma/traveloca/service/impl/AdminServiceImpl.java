@@ -11,10 +11,8 @@ import com.enigma.traveloca.repository.UserCredentialRepository;
 import com.enigma.traveloca.service.AdminService;
 import com.enigma.traveloca.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,20 +35,20 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public AdminResponse save(CreateAdminRequest request){
         validationUtil.validate(request);
-        UserCredential userCredential = userCredentialRepository.findById(request.getUserCredentialId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User credential not found"));
+        UserCredential userCredential = userCredentialRepository.findById(request.getUserCredentialId());
+
         Admin admin = Admin.builder()
                 .name(request.getName())
                 .userCredential(userCredential)
                 .build();
-        repository.saveAndFlush(admin);
+        repository.save(admin);
         return mapToResponse(admin);
     }
 
     @Transactional(readOnly = true)
     @Override
     public AdminResponse findById(String id){
-        Admin admin = findByIdOrThrowException(id);
+        Admin admin = repository.findById(id);
 
         return mapToResponse(admin);
     }
@@ -58,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteById(String id) {
-        Admin admin = findByIdOrThrowException(id);
+        Admin admin = repository.findById(id);
 
         repository.delete(admin);
     }
@@ -66,7 +64,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public AdminResponse update(UpdateAdminRequest request) {
-        Admin admin = findByIdOrThrowException(request.getId());
+        Admin admin = repository.findById(request.getId());
 
         Admin updated = Admin.builder()
                 .id(admin.getId())
@@ -74,10 +72,7 @@ public class AdminServiceImpl implements AdminService {
                 .userCredential(admin.getUserCredential())
                 .build();
 
-        return mapToResponse(repository.saveAndFlush(updated));
-    }
-    private Admin findByIdOrThrowException(String id) {
-        return repository.findById(id).orElseThrow(() -> { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Admin not found");});
+        return mapToResponse(repository.update(updated));
     }
     private AdminResponse mapToResponse(Admin admin) {
         String userCredentialId;

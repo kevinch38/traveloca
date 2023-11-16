@@ -6,9 +6,11 @@ import com.enigma.traveloca.dto.response.CommonResponse;
 import com.enigma.traveloca.dto.response.LoginResponse;
 import com.enigma.traveloca.dto.response.RegisterResponse;
 import com.enigma.traveloca.service.impl.AuthServiceImpl;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,8 @@ public class AuthController {
                 .body(response);
     }
 
+    @SecurityRequirement(name = "Bearer Authentication")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/register/admin")
     public ResponseEntity<?> registerAdmin(@RequestBody AuthRequest request) {
         RegisterResponse registerResponse = authService.registerAdmin(request);
