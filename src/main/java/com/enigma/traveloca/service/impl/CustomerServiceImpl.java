@@ -54,6 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
         return mapToResponse(customer);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Customer getById(String id) {
         return findByIdOrThrowException(id);

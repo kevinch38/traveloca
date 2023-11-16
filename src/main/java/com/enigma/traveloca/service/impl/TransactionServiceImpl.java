@@ -16,9 +16,9 @@ import com.enigma.traveloca.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionDetailService transactionDetailService;
     private final FlightService flightService;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public TransactionResponse save(TransactionRequest request) {
         Customer customer = customerService.getById(request.getCustomerId());
@@ -49,30 +50,31 @@ public class TransactionServiceImpl implements TransactionService {
         }
         List<TransactionDetail> transactionDetails = transactionDetailService.saveBulk(transactionDetailRequests);
 
-        Transaction transaction = Transaction.builder()
+        Transaction transaction = repository.saveAndFlush(Transaction.builder()
                 .customer(customer)
                 .transactionDetailList(transactionDetails)
                 .date(LocalDateTime.now())
-                .build();
+                .build());
 
-        Transaction savedTransaction = repository.saveAndFlush(transaction);
+        for (TransactionDetail transactionDetail : transaction.getTransactionDetailList())
+            transactionDetail.setTransaction(transaction);
 
-        for (TransactionDetail transactionDetail : transactionDetails)
-            transactionDetail.setTransaction(savedTransaction);
-
-        return mapToTransactionResponse(savedTransaction);
+        return mapToTransactionResponse(transaction);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Transaction getById(String transactionId) {
         return findByIdOrThrowException(transactionId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public TransactionResponse findById(String id) {
         return mapToTransactionResponse(findByIdOrThrowException(id));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<TransactionResponse> findAll() {
         return repository.findAll().stream().map(this::mapToTransactionResponse)
@@ -89,7 +91,7 @@ public class TransactionServiceImpl implements TransactionService {
         return TransactionResponse.builder()
                 .customerName(transaction.getCustomer().getName())
                 .date(transaction.getDate())
-                .transactionDetailResponses(transaction.getTransactionDetailList().stream().map(
+                .transactionDetails(transaction.getTransactionDetailList().stream().map(
                         transactionDetail ->
                                 TransactionDetailResponse.builder()
                                         .customerName(transactionDetail.getCustomerName())

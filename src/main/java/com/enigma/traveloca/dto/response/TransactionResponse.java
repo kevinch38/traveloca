@@ -17,5 +17,5 @@ public class TransactionResponse {
     private String customerName;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
-    private List<TransactionDetailResponse> transactionDetailResponses;
+    private List<TransactionDetailResponse> transactionDetails;
 }
