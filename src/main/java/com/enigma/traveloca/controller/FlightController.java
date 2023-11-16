@@ -5,15 +5,11 @@ import com.enigma.traveloca.dto.request.update.UpdateFlightRequest;
 import com.enigma.traveloca.dto.response.CommonResponse;
 import com.enigma.traveloca.dto.response.FlightResponse;
 import com.enigma.traveloca.service.FlightService;
-import com.enigma.traveloca.service.FlightService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -22,11 +18,11 @@ import java.util.List;
 public class FlightController {
     private final FlightService service;
     @PostMapping
-    public ResponseEntity<?> save(CreateFlightRequest request) {
+    public ResponseEntity<?> save(@RequestBody CreateFlightRequest request) {
         FlightResponse flightResponse = service.save(request);
 
         CommonResponse<FlightResponse> response = CommonResponse.<FlightResponse>builder()
-                .message("Successfully get all flights")
+                .message("Successfully save flight")
                 .statusCode(HttpStatus.OK.value())
                 .data(flightResponse)
                 .build();

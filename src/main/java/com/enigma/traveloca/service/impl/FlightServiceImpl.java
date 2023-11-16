@@ -36,6 +36,7 @@ public class FlightServiceImpl implements FlightService {
                 .time(localTime)
                 .airline(request.getAirline())
                 .price(request.getPrice())
+                .flightCode(request.getFlightCode())
                 .build();
 
         return mapToResponse(repository.saveAndFlush(flight));
@@ -78,9 +79,17 @@ public class FlightServiceImpl implements FlightService {
                 .time(localTime)
                 .airline(request.getAirline())
                 .price(request.getPrice())
+                .flightCode(flight.getFlightCode())
                 .build();
 
         return mapToResponse(repository.saveAndFlush(updated));
+    }
+
+    @Override
+    public Flight findByFlightCode(String flightCode) {
+       return repository.findByFlightCode(flightCode)
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight not found"));
     }
 
     private Flight findByIdOrThrowException(String id) {
@@ -94,6 +103,7 @@ public class FlightServiceImpl implements FlightService {
                 .time(flight.getTime().toString())
                 .airline(flight.getAirline())
                 .price(flight.getPrice())
+                .flightCode(flight.getFlightCode())
                 .build();
     }
 }

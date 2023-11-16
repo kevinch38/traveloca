@@ -9,12 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FlightResponse {
-    private String flightCode;
-    private String from;
-    private String to;
-    private String date;
-    private String time;
-    private String airline;
+public class TransactionDetailResponse {
+    private String customerName;
+    private String flightId;
     private Long price;
 }

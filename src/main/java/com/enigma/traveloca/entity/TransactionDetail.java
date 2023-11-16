@@ -7,32 +7,26 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "m_flight")
-public class Flight {
+@Table(name = "t_transaction_detail")
+public class TransactionDetail {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
     private String id;
-    @Column(unique = true)
-    private String flightCode;
     @Column
-    private LocalDate date;
-    @Column
-    private LocalTime time;
-    @Column
-    private String airline;
-    @Column(name = "depart_from")
-    private String departFrom;
-    @Column(name = "destination_to")
-    private String destinationTo;
+    private String customerName;
+    @ManyToOne
+    @JoinColumn(name = "flight_code")
+    private Flight flight;
+    @ManyToOne
+    @JoinColumn(name = "transaction_id")
+    private Transaction transaction;
     @Column
     private Long price;
 }

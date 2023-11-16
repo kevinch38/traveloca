@@ -1,10 +1,8 @@
 package com.enigma.traveloca.controller;
 
 import com.enigma.traveloca.dto.request.update.UpdateAdminRequest;
-import com.enigma.traveloca.dto.request.update.UpdateCustomerRequest;
-import com.enigma.traveloca.dto.response.CommonResponse;
 import com.enigma.traveloca.dto.response.AdminResponse;
-import com.enigma.traveloca.dto.response.CustomerResponse;
+import com.enigma.traveloca.dto.response.CommonResponse;
 import com.enigma.traveloca.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

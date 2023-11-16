@@ -54,6 +54,11 @@ public class CustomerServiceImpl implements CustomerService {
         return mapToResponse(customer);
     }
 
+    @Override
+    public Customer getById(String id) {
+        return findByIdOrThrowException(id);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteById(String id) {
