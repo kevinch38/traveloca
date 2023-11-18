@@ -35,8 +35,8 @@ public class AuthController {
                 .body(response);
     }
 
-    @SecurityRequirement(name = "Bearer Authentication")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @SecurityRequirement(name = "Bearer Authentication")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/register/admin")
     public ResponseEntity<?> registerAdmin(@RequestBody AuthRequest request) {
         RegisterResponse registerResponse = authService.registerAdmin(request);

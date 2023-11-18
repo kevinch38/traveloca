@@ -23,7 +23,6 @@ public class AdminRepositoryImpl implements AdminRepository {
     @Override
     public List<Admin> findAll() {
         String sql = "SELECT * FROM m_admin";
-
         Query query = entityManager.createNativeQuery(sql, Admin.class);
 
         return (List<Admin>) query.getResultList();
@@ -47,7 +46,6 @@ public class AdminRepositoryImpl implements AdminRepository {
     @Override
     public Admin update(Admin admin) {
         Admin existingAdmin = findById(admin.getId());
-
         existingAdmin.setName(admin.getName());
 
         return entityManager.merge(existingAdmin);

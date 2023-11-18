@@ -23,7 +23,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         String sql = "SELECT * FROM m_customer";
-
         Query query = entityManager.createNativeQuery(sql, Customer.class);
 
         return (List<Customer>) query.getResultList();
@@ -46,9 +45,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-
         Customer existingCustomer = findById(customer.getId());
-
         existingCustomer.setName(customer.getName());
 
         return entityManager.merge(existingCustomer);
