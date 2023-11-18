@@ -24,7 +24,7 @@ List the key features of traveloca. For example:
 - Find, delete, and update for every table except transaction and transaction detail
 
 ## Installation
-Reload the maven pom.xml (in traveloca package), here are the steps:
+Reload the maven pom.xml (in traveloca package intellij), here are the steps:
 - Right-click the pom.xml
 - Hover to maven
 - Click reload project
@@ -32,7 +32,7 @@ Reload the maven pom.xml (in traveloca package), here are the steps:
 
 ## Usage
 Steps to run the application(intellij):
-- Click Open 'Edit Run/Debug configurations' dialog. In image below click the 'Main' (![img_1.png](img_1.png)))
+- Click Open 'Edit Run/Debug configurations' dialog. In image below click the 'Main' ![img_1.png](img_1.png)
 - Click Edit Configurations
 - Click Add new configuration. If there is none then click Application and click Add new configuration(see image) ![img_2.png](img_2.png)
 - Select Main Class to run ![img_3.png](img_3.png)
