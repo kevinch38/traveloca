@@ -3,7 +3,7 @@
 
 ## Overview
 
-Briefly describe your e-commerce application, its main features, and the problem it solves. Include a high-level overview of the technologies used.
+Welcome to the Traveloca API project! This API allows you to manage flight ticket order transactions and related entities.
 
 ## Table of Contents
 
