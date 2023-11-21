@@ -32,12 +32,12 @@ Reload the maven pom.xml (in traveloca package intellij), here are the steps:
 
 ## Usage
 Steps to run the application(intellij):
-- Click Open 'Edit Run/Debug configurations' dialog. In image below click the 'Main' ![img_1.png](img_1.png)
+- Click Open 'Edit Run/Debug configurations' dialog. In image below click the 'Main' ![img_1.png](images/img_1.png)
 - Click Edit Configurations
-- Click Add new configuration. If there is none then click Application and click Add new configuration(see image) ![img_2.png](img_2.png)
-- Select Main Class to run ![img_3.png](img_3.png)
-- Click ok ![img_4.png](img_4.png)
-- Set the environment variables ![img_5.png](img_5.png)
+- Click Add new configuration. If there is none then click Application and click Add new configuration(see image) ![img_2.png](images/img_2.png)
+- Select Main Class to run ![img_3.png](images/img_3.png)
+- Click ok ![img_4.png](images/img_4.png)
+- Set the environment variables ![img_5.png](images/img_5.png)
 - Here is the template 
 DB_USERNAME=your_database_username;DB_PASSWORD=your_database_password;JWT_SECRET=up_to_you
 - After that just Click ok then run the application

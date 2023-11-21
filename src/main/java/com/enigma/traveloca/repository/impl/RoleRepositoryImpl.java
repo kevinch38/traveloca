@@ -27,3 +27,4 @@ public class RoleRepositoryImpl implements RoleRepository {
         return role;
     }
 }
+
